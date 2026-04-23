@@ -963,6 +963,14 @@ footer .pay-logo{border-color:#3a3155}
 (function(){
 'use strict';
 
+// Preserve GitHub Pages subdirectory base path even after pushState to '/'
+var BASE_PATH = (function(){
+  var p = window.location.pathname;
+  p = p.replace(/\/[^\/]*$/, '/');
+  return p;
+})();
+
+
 /* ⚠️ REMPLACER les 8 produits par le JSON Colin lors de chaque bankpage */
 /* ⚠️ Images : URL absolue HTTPS (mockup Gemini avec logo BRAND obligatoire) */
 /* ⚠️ Champ 'details' OBLIGATOIRE compliance bancaire */
@@ -971,35 +979,35 @@ var PRODUCTS = [
  {id:'p1',name:'Interactive Treat Puzzle Toy',cat:'Toys',sub:'Slow feeder, brain work.',price:7.99,
   desc:'Interactive treat puzzle toy that keeps dogs engaged while slowing down meal time.',sku:'001',short:'PUZZLE',bd:'DOGS · 3 LEVELS',
   details:'<strong>Material:</strong> Food-grade ABS plastic<br><br><strong>Type:</strong> Interactive puzzle feeder<br><br><strong>Package Includes:</strong> 1x Puzzle toy<br><br><strong>Care Instructions:</strong> Hand wash with mild soap. Air dry.<br><br><strong>Best For:</strong> Dogs who eat too fast, mental stimulation, rainy days.',
-  img:'imgs/p1.png'},
+  img:BASE_PATH+'imgs/p1.png'},
  {id:'p2',name:'Retractable Leash with Light',cat:'Leashes',sub:'Coral grip, LED at night.',price:14.99,
   desc:'Retractable leash with ergonomic coral handle and integrated LED light for evening walks.',sku:'002',short:'LEASH',bd:'16 FT · LED',
   details:'<strong>Material:</strong> Nylon cord, ABS handle, LED module<br><br><strong>Length:</strong> Up to 5 m / 16 ft<br><br><strong>Package Includes:</strong> 1x Retractable leash<br><br><strong>Care Instructions:</strong> Wipe handle. Replace LED battery yearly.<br><br><strong>Best For:</strong> Small to medium dogs, evening walks, urban use.',
-  img:'imgs/p2.png'},
+  img:BASE_PATH+'imgs/p2.png'},
  {id:'p3',name:'Stainless Steel Slow Feeder Bowl',cat:'Feeders',sub:'Non-slip base, easy clean.',price:24.99,
   desc:'Stainless steel slow feeder bowl with maze pattern and non-slip silicone base.',sku:'003',short:'BOWL',bd:'500 ML · NON-SLIP',
   details:'<strong>Material:</strong> 304 stainless steel, silicone base<br><br><strong>Capacity:</strong> 500 ml<br><br><strong>Package Includes:</strong> 1x Slow feeder bowl<br><br><strong>Care Instructions:</strong> Dishwasher safe. Dry before reuse.<br><br><strong>Best For:</strong> Fast eaters, dogs prone to bloat, dry kibble feeding.',
-  img:'imgs/p3.png'},
+  img:BASE_PATH+'imgs/p3.png'},
  {id:'p4',name:'Cat Scratching Post with Sisal Rope',cat:'Toys',sub:'Natural wood base, tall.',price:29.99,
   desc:'Tall cat scratching post wrapped in natural sisal rope with a stable wood base.',sku:'004',short:'SCRATCH',bd:'60 CM · SISAL',
   details:'<strong>Material:</strong> Pinewood base, natural sisal rope<br><br><strong>Height:</strong> 60 cm / 24 in<br><br><strong>Package Includes:</strong> 1x Scratching post, wall anchor<br><br><strong>Care Instructions:</strong> Vacuum occasionally. Tighten base screws yearly.<br><br><strong>Best For:</strong> Indoor cats, kittens, preventing furniture scratching.',
-  img:'imgs/p4.png'},
+  img:BASE_PATH+'imgs/p4.png'},
  {id:'p5',name:'Pet Grooming Deshedder Brush',cat:'Grooming',sub:'Premium finish, easy release.',price:39.99,
   desc:'Professional grooming brush with stainless teeth and self-cleaning eject button.',sku:'005',short:'BRUSH',bd:'DESHED · EJECT',
   details:'<strong>Material:</strong> Stainless steel teeth, soft-grip handle<br><br><strong>Type:</strong> Deshedding brush with one-click eject<br><br><strong>Package Includes:</strong> 1x Grooming brush<br><br><strong>Care Instructions:</strong> Clean teeth after each use.<br><br><strong>Best For:</strong> Medium to long-haired breeds, shedding seasons.',
-  img:'imgs/p5.png'},
+  img:BASE_PATH+'imgs/p5.png'},
  {id:'p6',name:'Automatic Water Fountain',cat:'Feeders',sub:'Filtered flow, whisper quiet.',price:44.99,
   desc:'Automatic pet water fountain with triple filtration and whisper-quiet pump.',sku:'006',short:'FOUNTAIN',bd:'2L · FILTERED',
   details:'<strong>Material:</strong> BPA-free plastic, stainless steel top<br><br><strong>Capacity:</strong> 2 L<br><br><strong>Package Includes:</strong> 1x Fountain, 1x Filter, USB cable<br><br><strong>Care Instructions:</strong> Rinse tank weekly. Replace filter every 2 months.<br><br><strong>Best For:</strong> Cats and small dogs, hydration for picky drinkers.',
-  img:'imgs/p6.png'},
+  img:BASE_PATH+'imgs/p6.png'},
  {id:'p7',name:'Dog Carrier Backpack',cat:'Comfort',sub:'Breathable mesh, padded straps.',price:49.99,
   desc:'Ventilated backpack carrier with padded shoulder straps and clear viewing window.',sku:'007',short:'CARRIER',bd:'UP TO 8 KG',
   details:'<strong>Material:</strong> Durable nylon, breathable mesh<br><br><strong>Max weight:</strong> 8 kg / 18 lb<br><br><strong>Package Includes:</strong> 1x Carrier backpack<br><br><strong>Care Instructions:</strong> Wipe with damp cloth. Spot wash.<br><br><strong>Best For:</strong> Small dogs and cats, travel, vet visits, outdoor walks.',
-  img:'imgs/p7.png'},
+  img:BASE_PATH+'imgs/p7.png'},
  {id:'p8',name:'Premium Memory Foam Pet Bed',cat:'Comfort',sub:'Orthopedic support, washable cover.',price:59.99,
   desc:'Orthopedic memory foam pet bed with removable coral and grey washable cover.',sku:'008',short:'PET BED',bd:'MEMORY · WASHABLE',
   details:'<strong>Material:</strong> Memory foam core, polyester plush cover<br><br><strong>Size:</strong> 80 x 60 cm / 31 x 24 in (medium)<br><br><strong>Package Includes:</strong> 1x Pet bed, 1x Removable cover<br><br><strong>Care Instructions:</strong> Remove cover and machine wash cold.<br><br><strong>Best For:</strong> Senior dogs, joint support, rescue pets.',
-  img:'imgs/p8.png'}
+  img:BASE_PATH+'imgs/p8.png'}
 ];
 
 var state = {cart:[], currentProduct:'p1', qty:1};
